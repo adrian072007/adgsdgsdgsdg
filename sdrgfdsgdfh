@@ -1,0 +1,66 @@
+import tkinter as tk
+from tkinter import messagebox
+import webbrowser
+import requests
+
+class MiApp:
+    def __init__(self, root):
+        self.root = root
+        root.title("TweaksCodeMasteryV2")
+
+        # Establecer el tamaño de la ventana
+        root.geometry("400x300")
+
+        # Configurar el color de fondo del menú
+        root.configure(bg="gold")
+
+        # Botón para descargar un archivo
+        boton_descargar = tk.Button(root, text="Descargar app", command=self.descargar_archivo)
+        boton_descargar.pack(pady=10)
+
+        # Botón para unirse a Discord
+        boton_discord = tk.Button(root, text="Unirse a Discord", command=self.unirse_discord)
+        boton_discord.pack(pady=10)
+
+        # Botón para ir a la tienda
+        boton_tienda = tk.Button(root, text="Ir a la tienda", command=self.ir_tienda)
+        boton_tienda.pack(pady=10)
+
+        # Botón para salir de la aplicación
+        boton_salir = tk.Button(root, text="Salir", command=self.salir)
+        boton_salir.pack(pady=10)
+
+        # Texto en la parte inferior
+        texto_fondo = tk.Label(root, text="CodeMasteryOnTop", font=("Arial", 8), foreground="gray", bg="gold")
+        texto_fondo.pack(side=tk.BOTTOM, pady=5)
+
+    def descargar_archivo(self):
+        # URL del archivo a descargar (reemplaza esto con tu URL)
+        url_archivo = 'https://drive.google.com/file/d/1D3JqMYL49GmtrB9_DzvhkASGte1vPvd9/view?usp=sharing'
+
+        try:
+            # Hacer la solicitud GET para obtener el contenido del archivo
+            respuesta = requests.get(url_archivo)
+            respuesta.raise_for_status()  # Verificar si la solicitud fue exitosa
+
+            # Guardar el contenido del archivo localmente
+            with open('nombre_del_archivo.extension', 'wb') as archivo_local:
+                archivo_local.write(respuesta.content)
+
+            tk.messagebox.showinfo("Éxito", "Archivo descargado correctamente como 'nombre_del_archivo.extension'")
+        except requests.exceptions.RequestException as e:
+            tk.messagebox.showerror("Error", f"Error al descargar el archivo: {str(e)}")
+
+    def unirse_discord(self):
+        webbrowser.open("https://discord.gg/dMEGYxcc8c")
+
+    def ir_tienda(self):
+        webbrowser.open("https://xhadricogharxcommunity.sell.app/")
+
+    def salir(self):
+        self.root.destroy()
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = MiApp(root)
+    root.mainloop()
